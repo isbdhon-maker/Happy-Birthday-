@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday!</title>
+    <style>
+        body { margin: 0; padding: 0; font-family: sans-serif; background: #ffdef2; text-align: center; overflow-x: hidden; }
+        .hidden { display: none !important; }
+        #welcome-screen { height: 100vh; display: flex; justify-content: center; align-items: center; background: #fff; }
+        button { padding: 15px 30px; font-size: 20px; background: #ff4bb4; color: white; border: none; border-radius: 50px; cursor: pointer; }
+        #popup { padding: 50px 20px; }
+        h1 { color: #d63384; }
+        #cake { width: 250px; cursor: pointer; border-radius: 20px; }
+        .heart { position: fixed; top: -10%; font-size: 25px; animation: fall linear forwards; }
+        @keyframes fall { to { transform: translateY(110vh); } }
+        .container { max-width: 600px; margin: auto; padding: 20px; }
+        video { width: 100%; border-radius: 15px; margin: 20px 0; }
+        img.final { width: 100%; border-radius: 20px; border: 5px solid white; }
+    </style>
+</head>
+<body>
+
+    <div id="welcome-screen">
+        <button onclick="startSurprise()">Open Your Surprise 🎁</button>
+    </div>
+
+    <div id="popup" class="hidden">
+        <h1>Happy Birthday! ❤️</h1>
+        <div id="cake-section">
+            <p>Click the cake to cut it!</p>
+            <img src="IMG-20260328-WA0004.jpg" id="cake" onclick="cutCake()">
+        </div>
+    </div>
+
+    <div id="main-content" class="hidden">
+        <div class="container">
+            <h3>Wishes for You 🎥</h3>
+            <video id="wish-video" controls>
+                <source src="wishes.mp4" type="video/mp4">
+            </video>
+            <div id="final-photo">
+                <img src="together.jpg" class="final">
+                <h1 style="color: red;">I Love You! ♾️</h1>
+            </div>
+        </div>
+    </div>
+
+    <audio id="bg-music" loop>
+        <source src="birthday_song.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        const bgMusic = document.getElementById('bg-music');
+        function startSurprise() {
+            document.getElementById('welcome-screen').classList.add('hidden');
+            document.getElementById('popup').classList.remove('hidden');
+            bgMusic.play();
+            const msg = new SpeechSynthesisUtterance();
+            msg.text = "Happy Birthday my dear. I love you so much!";
+            window.speechSynthesis.speak(msg);
+        }
+        function cutCake() {
+            document.getElementById('cake-section').classList.add('hidden');
+            document.getElementById('main-content').classList.remove('hidden');
+            setInterval(createHeart, 300);
+        }
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 2 + 3 + 's';
+            document.body.appendChild(heart);
+            setTimeout(() => { heart.remove(); }, 5000);
+        }
+    </script>
+</body>
+</html>
